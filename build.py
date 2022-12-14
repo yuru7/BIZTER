@@ -23,6 +23,7 @@ def open_font(weight) -> Tuple[Any, Any]:
     """フォントファイルを開く"""
     jp_font = fontforge.open(f"{SOURCE_DIR}/{SOURCE_FONT_JP.format(weight)}")
     if weight == "Bold":
+        # 太さを合わせるため、InterはSemiBoldを使う
         en_font = fontforge.open(f"{SOURCE_DIR}/{SOURCE_FONT_EN.format('Semi'+weight)}")
     else:
         en_font = fontforge.open(f"{SOURCE_DIR}/{SOURCE_FONT_EN.format(weight)}")
@@ -40,15 +41,15 @@ def remove_duplicate_glyphs(jp_font, en_font):
                 g_jp.clear()
 
 
-def merge_fonts(jp_font, en_font) -> Any:
-    """英語フォントと日本語フォントを合成する"""
-    # emを揃える
+def merge_fonts(jp_font, en_font, weight) -> Any:
+    """英語フォントと日本語フォントをマージする"""
+    # マージするためにemを揃える
     em_size = EM_ASCENT + EM_DESCENT
     jp_font.em = em_size
     en_font.em = em_size
 
-    en_font.generate(f"{BUILD_TMP}/modified_{SOURCE_FONT_EN}")
-    jp_font.mergeFonts(f"{BUILD_TMP}/modified_{SOURCE_FONT_EN}")
+    en_font.generate(f"{BUILD_TMP}/modified_{SOURCE_FONT_EN.format(weight)}")
+    jp_font.mergeFonts(f"{BUILD_TMP}/modified_{SOURCE_FONT_EN.format(weight)}")
     return jp_font
 
 
@@ -98,7 +99,7 @@ def main():
 
         remove_duplicate_glyphs(jp_font, en_font)
 
-        font = merge_fonts(jp_font, en_font)
+        font = merge_fonts(jp_font, en_font, weight)
 
         edit_meta_data(font, weight)
 
