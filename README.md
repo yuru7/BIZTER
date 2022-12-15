@@ -8,6 +8,8 @@ Inter はとても美しい… BIZ UDPゴシックはとても読みやすい…
 👉 [ダウンロード](https://github.com/yuru7/Binter/releases)
 ※「Assets」内の zip ファイルをダウンロードしてご利用ください。
 
+![image](https://user-images.githubusercontent.com/13458509/207849673-4736a9c6-f7ff-4bfe-b266-8426eabe01d9.png)
+
 ## ビルド
 
 ### ビルド環境
