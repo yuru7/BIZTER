@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import subprocess
 from typing import Any, Tuple
 
 import fontforge
@@ -17,6 +18,16 @@ EM_DESCENT = 266
 
 FONT_ASCENT = EM_ASCENT + 60
 FONT_DESCENT = EM_DESCENT + 170
+
+COPYRIGHT = """[Inter]
+Copyright (c) 2020 The Inter Project Authors (https://github.com/rsms/inter)
+
+[BIZ UDPGothic]
+Copyright 2022 The BIZ UDGothic Project Authors (https://github.com/googlefonts/morisawa-biz-ud-gothic)
+
+[Binter]
+Copyright 2022 Yuko Otawara
+"""
 
 
 def open_font(weight) -> Tuple[Any, Any]:
@@ -78,17 +89,9 @@ def edit_meta_data(font, weight: str):
     )
     font.familyname = FONT_NAME
     font.fontname = f"{FONT_NAME}-{weight}"
-    font.fullname = FONT_NAME
+    font.fullname = f"{FONT_NAME} {weight}"
     font.os2_vendor = "TWR"
-    font.copyright = """[Inter]
-Copyright (c) 2020 The Inter Project Authors (https://github.com/rsms/inter)
-
-[BIZ UDPGothic]
-Copyright 2022 The BIZ UDGothic Project Authors (https://github.com/googlefonts/morisawa-biz-ud-gothic)
-
-[Binter]
-Copyright 2022 Yuko Otawara
-    """
+    font.copyright = COPYRIGHT
 
 
 def main():
@@ -103,7 +106,16 @@ def main():
 
         edit_meta_data(font, weight)
 
-        font.generate(f"{BUILD_TMP}/{FONT_NAME}-{weight}.ttf")
+        font.generate(f"{BUILD_TMP}/gen_{FONT_NAME}-{weight}.ttf")
+
+        subprocess.run(
+            (
+                "ttfautohint",
+                "--dehint",
+                f"{BUILD_TMP}/gen_{FONT_NAME}-{weight}.ttf",
+                f"{BUILD_TMP}/{FONT_NAME}-{weight}.ttf",
+            )
+        )
 
 
 if __name__ == "__main__":
