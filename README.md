@@ -8,7 +8,7 @@ Inter はとても美しい… BIZ UDPゴシックはとても読みやすい…
 👉 [ダウンロード](https://github.com/yuru7/BIZTER/releases)  
 ※「Assets」内の zip ファイルをダウンロードしてご利用ください。
 
-![image](https://user-images.githubusercontent.com/13458509/207851767-a0c514c2-db86-4a2c-bcea-8e22cb150755.png)
+![image](https://user-images.githubusercontent.com/13458509/208080375-44309b06-b563-4f08-86d0-c7f74e677beb.png)
 
 ## ビルド
 
