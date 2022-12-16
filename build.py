@@ -6,7 +6,7 @@ from typing import Any, Tuple
 import fontforge
 
 VERSION = "v0.0.1"
-FONT_NAME = "Binter"
+FONT_NAME = "BIZTER"
 
 BUILD_TMP = "build_tmp"
 SOURCE_DIR = "source_fonts"
@@ -25,7 +25,7 @@ Copyright (c) 2020 The Inter Project Authors (https://github.com/rsms/inter)
 [BIZ UDPGothic]
 Copyright 2022 The BIZ UDGothic Project Authors (https://github.com/googlefonts/morisawa-biz-ud-gothic)
 
-[Binter]
+[BIZTER]
 Copyright 2022 Yuko Otawara
 """
 
