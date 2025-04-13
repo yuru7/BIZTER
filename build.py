@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 
+import os
+import shutil
 import subprocess
 from typing import Any, Tuple
+from unicodedata import east_asian_width
 
 import fontforge
 
-VERSION = "v0.0.1"
+VERSION = "v0.0.2"
 FONT_NAME = "BIZTER"
 
 BUILD_TMP = "build_tmp"
@@ -49,7 +52,11 @@ def remove_duplicate_glyphs(jp_font, en_font):
         unicode = int(g.unicode)
         if unicode >= 0:
             for g_jp in jp_font.selection.select(unicode).byGlyphs:
-                g_jp.clear()
+                # East Asian Ambiguous Widthの文字は、Inter側のグリフを削除する
+                if east_asian_width(chr(unicode)) == "A":
+                    g.clear()
+                else:
+                    g_jp.clear()
 
 
 def merge_fonts(jp_font, en_font, weight) -> Any:
@@ -95,7 +102,10 @@ def edit_meta_data(font, weight: str):
 
 
 def main():
-    # TODO: tmpフォルダを作って final で削除する
+    # 一時ディレクトリ作成
+    if os.path.exists(BUILD_TMP):
+        shutil.rmtree(BUILD_TMP)
+    os.makedirs(BUILD_TMP)
 
     for weight in ("Regular", "Bold"):
         jp_font, en_font = open_font(weight)
@@ -110,6 +120,8 @@ def main():
 
         subprocess.run(
             (
+                "python3",
+                "-m",
                 "ttfautohint",
                 "--dehint",
                 f"{BUILD_TMP}/gen_{FONT_NAME}-{weight}.ttf",
