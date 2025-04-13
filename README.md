@@ -19,14 +19,19 @@ Inter はとても美しい… BIZ UDPゴシックはとても読みやすい…
 - FontForge: `20201107`
 - ttfautohint: `1.8.3`
 
-### ビルドに必要なパッケージのインストール
+### Linux
 
 ```sh
+# 必要パッケージのインストール
 sudo apt install python3 python3-pip fontforge python3-fontforge ttfautohint
+# ビルド
+python build.py
 ```
 
-### ビルド実行
+### Windows
+
+**※事前にPython3、FontForgeをインストールしてあること**
 
 ```sh
-python build.py
+&"C:\Program Files (x86)\FontForgeBuilds\bin\ffpython.exe" .\build.py
 ```
