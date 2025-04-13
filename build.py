@@ -7,6 +7,7 @@ from typing import Any, Tuple
 from unicodedata import east_asian_width
 
 import fontforge
+import psMat
 
 VERSION = "v0.0.2"
 FONT_NAME = "BIZTER"
@@ -19,8 +20,8 @@ SOURCE_FONT_EN = "Inter-{}.ttf"
 EM_ASCENT = 1782
 EM_DESCENT = 266
 
-FONT_ASCENT = EM_ASCENT + 60
-FONT_DESCENT = EM_DESCENT + 170
+FONT_ASCENT = EM_ASCENT + 40
+FONT_DESCENT = EM_DESCENT + 190
 
 COPYRIGHT = """[Inter]
 Copyright (c) 2020 The Inter Project Authors (https://github.com/rsms/inter)
@@ -59,6 +60,18 @@ def remove_duplicate_glyphs(jp_font, en_font):
                     g_jp.clear()
 
 
+def adjust_font_scale(en_font):
+    """フォントのスケールを調整する"""
+    # 英語フォントのサイズを少し拡大する
+    for glyph in en_font.glyphs():
+        if not glyph.isWorthOutputting():
+            continue
+        # フォントのスケールを調整する
+        glyph.transform(psMat.scale(1.1, 1.1))
+        # フォントの位置を調整する
+        glyph.transform(psMat.translate(0, -80))
+
+
 def merge_fonts(jp_font, en_font, weight) -> Any:
     """英語フォントと日本語フォントをマージする"""
     # マージするためにemを揃える
@@ -75,15 +88,17 @@ def edit_meta_data(font, weight: str):
     """フォント内のメタデータを編集する"""
     font.ascent = EM_ASCENT
     font.descent = EM_DESCENT
-    font.os2_typoascent = EM_ASCENT
-    font.os2_typodescent = -EM_DESCENT
+
+    font.os2_typoascent = FONT_ASCENT
+    font.os2_typodescent = -FONT_DESCENT
+    font.os2_typolinegap = 0
 
     font.hhea_ascent = FONT_ASCENT
     font.hhea_descent = -FONT_DESCENT
+    font.hhea_linegap = 0
+
     font.os2_winascent = FONT_ASCENT
     font.os2_windescent = FONT_DESCENT
-    font.hhea_linegap = 0
-    font.os2_typolinegap = 0
 
     font.sfnt_names = (
         (
@@ -111,6 +126,8 @@ def main():
         jp_font, en_font = open_font(weight)
 
         remove_duplicate_glyphs(jp_font, en_font)
+
+        adjust_font_scale(en_font)
 
         font = merge_fonts(jp_font, en_font, weight)
 
