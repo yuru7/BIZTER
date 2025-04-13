@@ -12,13 +12,6 @@ Inter はとても美しい… BIZ UDPゴシックはとても読みやすい…
 
 ## ビルド
 
-### ビルド環境
-
-- OS: `Ubuntu 22.04.1 LTS`
-- Python: `3.10.6`
-- FontForge: `20201107`
-- ttfautohint: `1.8.3`
-
 ### Linux
 
 ```sh
