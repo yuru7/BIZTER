@@ -67,9 +67,9 @@ def adjust_font_scale(en_font):
         if not glyph.isWorthOutputting():
             continue
         # フォントのスケールを調整する
-        glyph.transform(psMat.scale(1.1, 1.1))
+        glyph.transform(psMat.scale(1.06, 1.06))
         # フォントの位置を調整する
-        glyph.transform(psMat.translate(0, -80))
+        glyph.transform(psMat.translate(0, -10))
 
 
 def merge_fonts(jp_font, en_font, weight) -> Any:
