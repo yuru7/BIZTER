@@ -42,6 +42,19 @@ def open_font(weight) -> Tuple[Any, Any]:
         en_font = fontforge.open(f"{SOURCE_DIR}/{SOURCE_FONT_EN.format('Semi'+weight)}")
     else:
         en_font = fontforge.open(f"{SOURCE_DIR}/{SOURCE_FONT_EN.format(weight)}")
+
+    # フォント参照を解除する
+    for glyph in jp_font.glyphs():
+        if glyph.isWorthOutputting():
+            jp_font.selection.select(("more", None), glyph)
+    jp_font.unlinkReferences()
+    for glyph in en_font.glyphs():
+        if glyph.isWorthOutputting():
+            en_font.selection.select(("more", None), glyph)
+    en_font.unlinkReferences()
+    jp_font.selection.none()
+    en_font.selection.none()
+
     return jp_font, en_font
 
 
